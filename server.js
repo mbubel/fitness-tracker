@@ -24,6 +24,16 @@ app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public", "exercise.html"));
 });
 
+app.put("/api/workouts/:id", ({ body, params: { id } }, res) => {
+  db.Workout.findByIdAndUpdate(id, { $push: { exercises: body } })
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
 app
   .route("/api/workouts")
   .get((req, res) => {
