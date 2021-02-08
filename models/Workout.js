@@ -7,6 +7,7 @@ const ExerciseSchema = new Schema({
   weight: Number,
   reps: Number,
   sets: Number,
+  type: String
 });
 
 const WorkoutSchema = new Schema({

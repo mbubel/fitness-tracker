@@ -64,8 +64,8 @@ app
         res.json(err);
       });
   })
-  .post(({ body }, res) => {
-    db.Workout.create(body)
+  .post((req, res) => {
+    db.Workout.create({day: new Date()})
       .then((dbWorkout) => {
         res.json(dbWorkout);
         console.log(dbWorkout);
