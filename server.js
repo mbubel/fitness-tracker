@@ -3,7 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const db = require("./models");
 
@@ -37,11 +37,13 @@ app.put("/api/workouts/:id", ({ body, params: { id } }, res) => {
 app
   .route("/api/workouts")
   .get((req, res) => {
-    db.Workout.find({})
+    db.Workout.aggregate([
+      { $addFields: { totalDuration: { $sum: "$exercises.duration" } } },
+    ])
       .then((dbWorkouts) => {
         res.json(dbWorkouts);
       })
-      .catch((err) => {
+      .catch((err) => { 
         res.json(err);
       });
   })
