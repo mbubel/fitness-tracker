@@ -23,6 +23,23 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
 app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "./public", "exercise.html"));
 });
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public", "stats.html"));
+});
+
+app.get("/api/workouts/range", (req, res) => {
+  db.Workout.aggregate([
+    { $sort: { day: -1 } },
+    { $limit: 7 },
+    { $addFields: { totalDuration: { $sum: "$exercises.duration" } } },
+  ])
+    .then((dbWorkouts) => {
+      res.json(dbWorkouts);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
 app.put("/api/workouts/:id", ({ body, params: { id } }, res) => {
   db.Workout.findByIdAndUpdate(id, { $push: { exercises: body } })
@@ -43,7 +60,7 @@ app
       .then((dbWorkouts) => {
         res.json(dbWorkouts);
       })
-      .catch((err) => { 
+      .catch((err) => {
         res.json(err);
       });
   })
