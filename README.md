@@ -22,6 +22,8 @@ Fork the repo and put in a pull request.
 # TEST:
 Deployed on Heroku: https://fitness-tracker-mb.herokuapp.com/
 
+Video Demonstration: https://drive.google.com/file/d/1MkNImtEhhchZU80WXLwOPArgaRjH7muX/view
+
 
 # LICENSE:
 
